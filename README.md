@@ -184,6 +184,5 @@ La aplicación Go actúa como orquestador: recibe las instrucciones del usuario 
 
 ## Autores
 
-Proyecto desarrollado para el curso de **Computación en la Nube** — Universidad del Quindío, 2026-1.
+Proyecto desarrollado para **Federico Alvarez, Juan Camilo Cuenca, Diego Alexander Jimenez** - Computación en la Nube — Universidad del Quindío, 2026-1.
 
-Docente: Carlos Eduardo Gómez Montoya.
