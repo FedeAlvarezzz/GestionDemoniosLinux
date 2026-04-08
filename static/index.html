@@ -15,54 +15,62 @@
 
         <div class="main-card">
 
+            <!-- ── Formulario de preparación ── -->
             <div class="form-card">
                 <div class="form-card-header">Preparar máquina virtual</div>
                 <div class="form-card-body">
 
+                    <!-- Archivo ejecutable -->
                     <div class="field">
                         <label>Archivo ejecutable</label>
                         <div class="input-row">
-                            <input type="text" placeholder="/home/user/app/servidor-imagenes" />
-                            <button class="btn btn-gray">Explorar</button>
+                            <input id="text-executable" type="text" placeholder="/home/user/app/servidor-imagenes" readonly />
+                            <input id="input-executable" type="file" style="display:none" />
+                            <button id="btn-explore-exec" class="btn btn-gray">Explorar</button>
                         </div>
                     </div>
 
+                    <!-- Número de puerto -->
                     <div class="field">
                         <label>Número de puerto</label>
                         <div class="port-wrap">
-                            <input type="number" value="8081" />
+                            <input id="input-port" type="number" value="8081" min="1" max="65535" />
                             <div class="port-arrows">
-                                <button>▲</button>
-                                <button>▼</button>
+                                <button id="btn-port-up">▲</button>
+                                <button id="btn-port-down">▼</button>
                             </div>
                         </div>
                     </div>
 
+                    <!-- Archivos adicionales (.zip) -->
                     <div class="field">
                         <label>Archivos adicionales (.zip)</label>
                         <div class="input-row">
-                            <input type="text" placeholder="/home/user/app/recursos.zip" />
-                            <button class="btn btn-gray">Explorar</button>
+                            <input id="text-zip" type="text" placeholder="/home/user/app/recursos.zip" readonly />
+                            <input id="input-zip" type="file" accept=".zip" style="display:none" />
+                            <button id="btn-explore-zip" class="btn btn-gray">Explorar</button>
                         </div>
                     </div>
 
+                    <!-- Máquina virtual (plantilla) -->
                     <div class="field">
                         <label>Máquina virtual (plantilla)</label>
-                        <input class="full" type="text" placeholder="Debian13-base" />
+                        <input id="input-vm-template" class="full" type="text" placeholder="Debian13-base" />
                     </div>
 
+                    <!-- Nombre disco multiconexión -->
                     <div class="field">
                         <label>Nombre disco multiconexión</label>
                         <div class="input-row">
-                            <input type="text" placeholder="Srv-img3x1" />
-                            <button class="btn btn-gray">Explorar</button>
-                            <button class="btn btn-blue">Ejecutar</button>
+                            <input id="input-disk-name" type="text" placeholder="Srv-img3x1" />
+                            <button id="btn-ejecutar" class="btn btn-blue">Ejecutar</button>
                         </div>
                     </div>
 
                 </div>
             </div>
 
+            <!-- ── Tablero: Discos Multiconexión ── -->
             <div class="table-block">
                 <div class="table-block-title">Tablero de control — Discos Multiconexión</div>
                 <table>
@@ -73,21 +81,15 @@
                             <th>Acciones</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="disks-tbody">
                         <tr>
-                            <td><span class="disk-badge">Srv-img3x1</span></td>
-                            <td style="font-family:var(--font-mono);font-size:12px;color:#553c9a">C:\Users\Usuario\VirtualBox VMs\Srv-img3x1.vdi</td>
-                            <td>
-                                <div class="td-actions">
-                                    <button class="btn btn-sm btn-blue">Crear máquina virtual</button>
-                                    <button class="btn btn-sm btn-red">Eliminar disco</button>
-                                </div>
-                            </td>
+                            <td colspan="3" style="text-align:center;color:#a0aec0">Cargando...</td>
                         </tr>
                     </tbody>
                 </table>
             </div>
 
+            <!-- ── Tablero: Máquinas Virtuales ── -->
             <div class="table-block">
                 <div class="table-block-title">Tablero de control — Máquinas virtuales</div>
                 <table>
@@ -99,54 +101,61 @@
                             <th>Acciones</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="vms-tbody">
                         <tr>
-                            <td style="font-weight:600">Srv-img3x1a</td>
-                            <td><span class="ip-badge">10.0.48.19</span></td>
-                            <td><span class="port-badge">8081</span></td>
-                            <td>
-                                <div class="td-actions">
-                                    <button class="btn btn-sm btn-green">Iniciar</button>
-                                    <button class="btn btn-sm btn-red">Apagar</button>
-                                    <button class="btn btn-sm btn-teal">Ir →</button>
-                                </div>
-                            </td>
+                            <td colspan="4" style="text-align:center;color:#a0aec0">Cargando...</td>
                         </tr>
                     </tbody>
                 </table>
             </div>
 
+            <!-- ── Gestión del servicio ── -->
             <div class="service-card">
                 <div class="service-card-header">Gestión del servicio (systemctl)</div>
                 <div class="service-card-body">
 
+                    <!-- Nombre del servicio + IP de la VM -->
+                    <div class="svc-inputs">
+                        <div class="field">
+                            <label>Nombre del servicio</label>
+                            <input id="input-service-name" type="text" placeholder="srv-img3x1a" class="full" />
+                        </div>
+                        <div class="field">
+                            <label>IP de la máquina virtual</label>
+                            <input id="input-service-vm" type="text" placeholder="10.0.48.19" class="full" />
+                        </div>
+                    </div>
+
                     <div class="svc-label">Control del servicio</div>
                     <div class="svc-grid">
-                        <button class="btn btn-green">Iniciar</button>
-                        <button class="btn btn-red">Detener</button>
-                        <button class="btn btn-orange">Reiniciar</button>
-                        <button class="btn btn-blue">Habilitar</button>
+                        <button id="btn-start"   class="btn btn-green">Iniciar</button>
+                        <button id="btn-stop"    class="btn btn-red">Detener</button>
+                        <button id="btn-restart" class="btn btn-orange">Reiniciar</button>
+                        <button id="btn-enable"  class="btn btn-blue">Habilitar</button>
                     </div>
 
                     <div class="svc-label">Información</div>
                     <div class="svc-grid-2">
-                        <button class="btn btn-gray">Deshabilitar</button>
-                        <button class="btn btn-purple">Ver logs</button>
-                        <button class="btn btn-teal">Estado (status)</button>
+                        <button id="btn-disable" class="btn btn-gray">Deshabilitar</button>
+                        <button id="btn-logs"    class="btn btn-purple">Ver logs</button>
+                        <button id="btn-status"  class="btn btn-teal">Estado (status)</button>
                     </div>
 
                     <div class="divider"></div>
 
                     <div class="svc-label">Registro de actividad</div>
-                    <div class="log-area">
-                        <span class="log-prompt">$</span> <span style="color:#90cdf4">systemctl</span> status srv-img3x1a.service<br>
+                    <div class="log-area" id="log-area">
+                        <span class="log-prompt">$</span>
+                        <span style="color:#90cdf4">systemctl</span> status &lt;servicio&gt;.service<br>
                         <span class="log-muted">— Esperando acción del usuario...</span>
                     </div>
 
                 </div>
             </div>
 
-        </div>
-    </div>
+        </div><!-- /.main-card -->
+    </div><!-- /.app -->
+
+    <script src="app.js"></script>
 </body>
 </html>
