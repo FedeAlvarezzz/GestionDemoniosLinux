@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Demonios Linux — systemd</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <div class="app">
+        <div class="app-header">
+            <h1>Gestión de Demonios Linux — systemd</h1>
+        </div>
+
+        <div class="main-card">
+            <!-- Formulario -->
+            <div class="form-card">
+                <div class="form-card-header">Preparar máquina virtual</div>
+                <div class="form-card-body">
+                    <div class="field">
+                        <label>Archivo ejecutable</label>
+                        <div class="input-row">
+                            <input type="text" id="ejecutablePath" placeholder="/home/user/app/servidor-imagenes" />
+                            <button class="btn btn-gray" type="button" onclick="seleccionarArchivo('ejecutable')">Explorar</button>
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <label>Número de puerto</label>
+                        <div class="port-wrap">
+                            <input type="number" id="puerto" value="8081" min="1024" max="65535" />
+                            <div class="port-arrows">
+                                <button type="button" onclick="cambiarPuerto(1)">▲</button>
+                                <button type="button" onclick="cambiarPuerto(-1)">▼</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <label>Archivos adicionales (.zip)</label>
+                        <div class="input-row">
+                            <input type="text" id="zipPath" placeholder="/home/user/app/recursos.zip" />
+                            <button class="btn btn-gray" type="button" onclick="seleccionarArchivo('zip')">Explorar</button>
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <label>Máquina virtual (plantilla)</label>
+                        <input class="full" type="text" id="plantillaVM" placeholder="Debian13-base" />
+                    </div>
+
+                    <div class="field">
+                        <label>Nombre disco multiconexión</label>
+                        <div class="input-row">
+                            <input type="text" id="discoNombre" placeholder="Srv-img3x1" />
+                            <button class="btn btn-gray" type="button" onclick="seleccionarArchivo('disco')">Explorar</button>
+                            <button class="btn btn-blue" type="button" onclick="crearDemonio()">Crear Demonio</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tablero Discos -->
+            <div class="table-block">
+                <div class="table-block-title">Tablero de control — Discos Multiconexión</div>
+                <table>
+                    <thead><tr><th>Nombre del disco</th><th>Ruta</th><th>Acciones</th></tr></thead>
+                    <tbody id="listaDiscos"></tbody>
+                </table>
+            </div>
+
+            <!-- Tablero VMs -->
+            <div class="table-block">
+                <div class="table-block-title">Tablero de control — Máquinas Virtuales</div>
+                <table>
+                    <thead><tr><th>Nombre VM</th><th>Dirección IP</th><th>Puerto</th><th>Acciones</th></tr></thead>
+                    <tbody id="listaVMs"></tbody>
+                </table>
+            </div>
+
+            <!-- Gestión systemd -->
+            <div class="service-card">
+                <div class="service-card-header">Gestión del servicio (systemctl)</div>
+                <div class="service-card-body">
+                    <div class="svc-label">Seleccionar servicio</div>
+                    <select id="selectorServicio" class="full" style="margin-bottom:16px; padding:8px;"></select>
+
+                    <div class="svc-label">Control del servicio</div>
+                    <div class="svc-grid">
+                        <button class="btn btn-green" onclick="controlServicio('start')">Iniciar</button>
+                        <button class="btn btn-red" onclick="controlServicio('stop')">Detener</button>
+                        <button class="btn btn-orange" onclick="controlServicio('restart')">Reiniciar</button>
+                        <button class="btn btn-blue" onclick="controlServicio('enable')">Habilitar</button>
+                    </div>
+
+                    <div class="svc-label">Información</div>
+                    <div class="svc-grid-2">
+                        <button class="btn btn-gray" onclick="controlServicio('disable')">Deshabilitar</button>
+                        <button class="btn btn-purple" onclick="verLogs()">Ver logs</button>
+                        <button class="btn btn-teal" onclick="verStatus()">Estado (status)</button>
+                    </div>
+
+                    <div class="divider"></div>
+                    <div class="svc-label">Registro de actividad</div>
+                    <div class="log-area" id="logArea">
+                        <span class="log-prompt">$</span> <span style="color:#90cdf4">systemctl</span><br>
+                        <span class="log-muted">— Esperando acción del usuario...</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/script.js"></script>
+</body>
+</html>
